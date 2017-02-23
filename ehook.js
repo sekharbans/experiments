@@ -5,8 +5,10 @@ var querystring = require('querystring');
 var app = express()
 
 app.get('/search', function (req, res) {
-  var qryStr =  req.query.q;
-      request('https://idauth.ebay.com/idauth/site/token?client_id=urn:ebay-marketplace-consumerid:39bf2358-9c0e-483b-9dd9-2492da57e435&client_secret=587dd99e-73f9-46f3-b3b7-714c97d48a0e&grant_type=client_credentials&scope=https://api.ebay.com/oauth/api_scope', function (error, response, body) {
+    var qryStr = req.query.q;
+    res.send('hello world '+qryStr);
+
+/*      request('https://idauth.ebay.com/idauth/site/token?client_id=urn:ebay-marketplace-consumerid:39bf2358-9c0e-483b-9dd9-2492da57e435&client_secret=587dd99e-73f9-46f3-b3b7-714c97d48a0e&grant_type=client_credentials&scope=https://api.ebay.com/oauth/api_scope', function (error, response, body) {
   console.log('error:', error); // Print the error if one occurred
   console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
  // console.log('body:', body); // Print the HTML for the Google homepage.
@@ -29,7 +31,7 @@ app.get('/search', function (req, res) {
     res.send(JSON.stringify(jsonInstance));
     ;
   })
-});
+});*/
 })
 
 app.listen(3000, function () {
