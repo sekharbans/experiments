@@ -4,7 +4,7 @@ var querystring = require('querystring');
 
 var app = express()
 
-app.all('/search', function (req, res) {
+app.post('/search', function (req, res) {
     console.log('search called *************');
     var qryStr = req.query.q;
 //    res.send('hello world ' + qryStr);
