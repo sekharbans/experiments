@@ -13,7 +13,8 @@
     "module/"
   ],
   "scripts": {
-    "build:live": "NODE_ENV=development nodemon --exec ./node_modules/.bin/ts-node -- ./typescript_examples/tts_request.ts"
+    "build:live": "NODE_ENV=development nodemon --exec ./node_modules/.bin/ts-node -- ./typescript_examples/tts_request.ts",
+    "start": "node ehook.js"
   },
   "repository": {
     "type": "git",
