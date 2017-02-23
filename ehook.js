@@ -35,8 +35,8 @@ app.get('/search', function (req, res) {
     });*/
 })
 
-app.listen(3000, function () {
-  console.log('Example5 app listening on port 3000!')
+app.listen((process.env.PORT || 5000), function () {
+    console.log('Example6 app listening on port !' + process.env.PORT)
 })
 
 function JSONResponse () {
