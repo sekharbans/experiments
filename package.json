@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "build:live": "NODE_ENV=development nodemon --exec ./node_modules/.bin/ts-node -- ./typescript_examples/tts_request.ts",
-    "start": "node ehook.js"
+    "start": "node webhook.js"
   },
   "repository": {
     "type": "git",
@@ -43,6 +43,8 @@
     "express": "^4.13.3"
   },
   "dependencies": {
+    "actions-on-google": "1.0.7",
+    "body-parser": "1.16.1",
     "express": "4.14.1",
     "request": "2.79.0"
   }
