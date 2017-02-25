@@ -16,7 +16,6 @@ const TYPE_ARGUMENT = 'type';
 const BRANDS_ARGUMENT = 'brands';
 const SPACE = ' ';
 
-// [START SillyNameMaker]
 app.post('/', function (req, res) {
   const assistant = new Assistant({request: req, response: res});
   console.log('Request headers: ' + JSON.stringify(req.headers));
@@ -59,7 +58,9 @@ function processResponse (assistant,query) {
     var responseJson = JSON.parse(body);
     var obj = responseJson.itemSummaries;
     console.log("QueryString"+query);
-    msgStr = "found a great "+obj[0].title +" for price "+obj[0].price.value;
+    if(obj !=null) {
+        msgStr = "found a great "+obj[0].title +" for price "+obj[0].price.value;
+    } 
     console.log(msgStr);  
     var strInputs = ["Would you like anything else?"];
     assistant.ask(msgStr,strInputs);
