@@ -21,24 +21,23 @@ app.post('/', function (req, res) {
   const assistant = new Assistant({request: req, response: res});
   console.log('Request headers: ' + JSON.stringify(req.headers));
   console.log('Request body: ' + JSON.stringify(req.body));
-  var query = '';
-  function searchitem (assistant) {
-    addToQueryString(assistant.getArgument(COLOR_ARGUMENT));
-    addToQueryString(assistant.getArgument(BRANDS_ARGUMENT));
-    addToQueryString(assistant.getArgument(TYPE_ARGUMENT));
-    addToQueryString(assistant.getArgument(SELLER_ARGUMENT));
-    processResponse (assistant,query);
-  }
-  function addToQueryString( val) {
-    val = val ==null?'':val;
-    query = query+ val+SPACE;
- }
-
   let actionMap = new Map();
   actionMap.set(NAME_ACTION, searchitem);
-
   assistant.handleRequest(actionMap);
 });
+
+function searchitem (assistant,query) {
+    var query = addToQueryString(assistant.getArgument(COLOR_ARGUMENT)) +
+                addToQueryString(assistant.getArgument(BRANDS_ARGUMENT)) + 
+                addToQueryString(assistant.getArgument(TYPE_ARGUMENT))+
+                addToQueryString(assistant.getArgument(SELLER_ARGUMENT));
+    processResponse (assistant,query);
+}
+
+function addToQueryString( val) {
+    val = val ==null?'':val;
+    return val+SPACE;
+}
 
 function processResponse (assistant,query) {
 //    assistant.tell(queryString);
@@ -48,7 +47,6 @@ function processResponse (assistant,query) {
   function (error, response, body) {
         console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
         if(response && response.statusCode != 200) console.log("error:", errror)
-        // console.log('body:', body); 
   
         var headers = {
             'Authorization':'Bearer '+JSON.parse(body).access_token,
