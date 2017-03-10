@@ -1,10 +1,10 @@
 'use strict';
 process.env.DEBUG = 'actions-on-google:*';
-let Assistant = require('actions-on-google').ApiAiAssistant;
-let express = require('express');
-let bodyParser = require('body-parser');
-let request = require('request');
-let querystring = require('querystring');
+const Assistant = require('actions-on-google').ApiAiAssistant;
+const express = require('express');
+const bodyParser = require('body-parser');
+const request = require('request');
+const querystring = require('querystring');
 
 let app = express();
 app.use(bodyParser.json({type: 'application/json'}));
@@ -14,6 +14,7 @@ const COLOR_ARGUMENT = 'color';
 const NUMBER_ARGUMENT = 'number';
 const TYPE_ARGUMENT = 'type';
 const BRANDS_ARGUMENT = 'brands';
+const SELLER_ARGUMENT = 'seller';
 const SPACE = ' ';
 
 app.post('/', function (req, res) {
@@ -25,6 +26,7 @@ app.post('/', function (req, res) {
     addToQueryString(assistant.getArgument(COLOR_ARGUMENT));
     addToQueryString(assistant.getArgument(BRANDS_ARGUMENT));
     addToQueryString(assistant.getArgument(TYPE_ARGUMENT));
+    addToQueryString(assistant.getArgument(SELLER_ARGUMENT));
     processResponse (assistant,query);
   }
   function addToQueryString( val) {
@@ -42,9 +44,10 @@ function processResponse (assistant,query) {
 //    assistant.tell(queryString);
     let msgStr = 'Sorry I did not find a match';
 
-     request('https://idauth.ebay.com/idauth/site/token?client_id=urn:ebay-marketplace-consumerid:39bf2358-9c0e-483b-9dd9-2492da57e435&client_secret=587dd99e-73f9-46f3-b3b7-714c97d48a0e&grant_type=client_credentials&scope=https://api.ebay.com/oauth/api_scope', function (error, response, body) {
-        console.log('error:', error); // Print the error if one occurred
+  request('https://idauth.ebay.com/idauth/site/token?client_id=SekharBa-FirstApp-PRD-c45ed6035-c6d3a2ff&client_secret=PRD-45ed6035b0cd-c25b-4383-8701-40b7&grant_type=client_credentials&scope=https://api.ebay.com/oauth/api_scope', 
+  function (error, response, body) {
         console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+        if(response && response.statusCode != 200) console.log("error:", errror)
         // console.log('body:', body); 
   
         var headers = {
@@ -52,12 +55,12 @@ function processResponse (assistant,query) {
             'Accept':'application/JSON'
         }
  // console.log(JSON.parse(body).access_token)
- var searchQuery = querystring.stringify({q:query});
+ let searchQuery = querystring.stringify({q:query});
   request({url:'https://api.ebay.com/buy/browse/v1/item_summary/search?limit=1&'+searchQuery,headers:headers }, function (error, response, body){
   //console.log('body:', body);  
     var responseJson = JSON.parse(body);
     var obj = responseJson.itemSummaries;
-    console.log("QueryString"+query);
+    console.log("QueryString:"+query);
     if(obj !=null) {
         msgStr = "found a great "+obj[0].title +" for price "+obj[0].price.value;
     } 
